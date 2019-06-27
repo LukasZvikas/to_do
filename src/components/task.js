@@ -7,6 +7,9 @@ export const Task = ({ ID, name, description, creationDate }) => (
     <td>{name}</td>
     <td>{description}</td>
     <td>{creationDate}</td>
+    <td>
+      <button className="btn btn-success">Update</button>
+    </td>
   </tr>
 );
 
@@ -21,5 +24,5 @@ Task.defaultProps = {
   ID: Date.now(),
   name: PropTypes.string,
   description: PropTypes.string,
-  creationDate: new Date().toISOString()
+  creationDate: new Date().toLocaleString()
 };
