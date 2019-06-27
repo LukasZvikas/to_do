@@ -5,7 +5,7 @@ import { Task } from './task';
 import TaskForm from './TaskForm';
 
 class Dashboard extends Component {
-  state = { showForm: false };
+  state = { showForm: false, isUpdate: false, updatedItemID: null };
   renderTasks(tasks) {
     return tasks.map(item => (
       <Task
@@ -14,16 +14,24 @@ class Dashboard extends Component {
         name={item.name}
         description={item.description}
         creationDate={item.creationDate}
+        showForm={() => this.changeShowFormState(true, item.ID)}
       />
     ));
   }
 
-  changeShowFormState() {
+  changeUpdateState(ID) {
+    this.setState({ isUpdate: !this.state.isUpdate, updatedItemID: ID });
+  }
+
+  changeShowFormState(isUpdate = false, ID = null) {
+    if (isUpdate) {
+      this.changeUpdateState(ID);
+    }
     this.setState(prevState => ({ showForm: !prevState.showForm }));
   }
 
   render() {
-    const { showForm } = this.state;
+    const { showForm, isUpdate, updatedItemID } = this.state;
     const { tasks } = this.props;
     return (
       <Fragment>
@@ -38,7 +46,16 @@ class Dashboard extends Component {
           </thead>
           <tbody>{this.renderTasks(tasks)}</tbody>
         </table>
-        {showForm ? <TaskForm closeForm={() => this.changeShowFormState()} /> : null}
+        {showForm ? (
+          <TaskForm
+            isUpdate={isUpdate}
+            ID={updatedItemID}
+            closeForm={() => {
+              this.changeShowFormState();
+              isUpdate && this.changeUpdateState();
+            }}
+          />
+        ) : null}
         <button onClick={() => this.changeShowFormState()} className="btn btn-primary">
           Add Task
         </button>

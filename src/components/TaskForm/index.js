@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import './TaskForm.css';
-import { addTask } from '../../actions';
+import { addTask, updateTask } from '../../actions';
 
 class TaskForm extends Component {
   state = { taskDetails: {} };
@@ -12,13 +12,28 @@ class TaskForm extends Component {
       taskDetails: { ...taskDetails, [name]: value }
     });
   }
-  render() {
-    const { closeForm, addTask } = this.props;
+
+  determineAction() {
+    const { isUpdate, addTask, updateTask, ID, closeForm } = this.props;
     const { taskDetails } = this.state;
+
+    const creationDate = new Date().toLocaleString();
+
+    const params = { ...taskDetails, creationDate };
+
+    if (isUpdate) {
+      updateTask({ ...params, ID });
+    } else {
+      addTask({ ...params, ID: Date.now() });
+    }
+    closeForm();
+  }
+  render() {
+    const { closeForm, isUpdate, ID } = this.props;
     return (
       <div className="form-container w-100 h-100 row">
         <div className="d-flex col-10 col-md-5 flex-column justify-content-center align-items-center bg-white form-container__form p-4 w-100">
-          <h5 className="mb-4">Add Task </h5>
+          <h5 className="mb-4">{isUpdate ? `Update task ${ID}` : 'Add Task'} </h5>
           <div className="close-btn" onClick={closeForm}>
             close
           </div>
@@ -30,18 +45,8 @@ class TaskForm extends Component {
             onChange={e => this.onInputChange(e)}
             className="col-10 mb-3"
           />
-          <button
-            onClick={() => {
-              addTask({
-                ...taskDetails,
-                ID: Date.now(),
-                creationDate: new Date().toLocaleString()
-              });
-              closeForm();
-            }}
-            className="btn btn-success my-3"
-          >
-            Add
+          <button onClick={() => this.determineAction()} className="btn btn-success my-3">
+            {isUpdate ? `Update Task` : 'Add Task'}
           </button>
         </div>
       </div>
@@ -51,10 +56,17 @@ class TaskForm extends Component {
 
 TaskForm.propTypes = {
   closeForm: PropTypes.func.isRequired,
-  addTask: PropTypes.func.isRequired
+  addTask: PropTypes.func.isRequired,
+  isUpdate: PropTypes.bool,
+  ID: PropTypes.number
+};
+
+TaskForm.defaultProps = {
+  isUpdate: false,
+  ID: null
 };
 
 export default connect(
   null,
-  { addTask }
+  { addTask, updateTask }
 )(TaskForm);
