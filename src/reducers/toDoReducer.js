@@ -1,8 +1,9 @@
-import { ADD_TASK, UPDATE_TASK, DELETE_TASK } from './types';
+import { ADD_TASK, UPDATE_TASK, DELETE_TASK, RECORD_ACTION, CHANGE_RECORDING_STATE } from './types';
 import { removeItemFromArr } from '../utilities/helpers';
 
 const initialState = {
-  tasks: []
+  tasks: [],
+  isRecording: false
 };
 
 export default (state = initialState, { payload, type }) => {
@@ -15,6 +16,10 @@ export default (state = initialState, { payload, type }) => {
     case DELETE_TASK:
       const newTaskArr = removeItemFromArr(state.tasks, payload);
       return { ...state, tasks: [...newTaskArr] };
+    case RECORD_ACTION:
+      return state;
+    case CHANGE_RECORDING_STATE:
+      return { ...state, isRecording: !state.isRecording };
     default:
       return state;
   }

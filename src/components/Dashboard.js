@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Task } from './task';
 import TaskForm from './TaskForm';
+import RecordPanel from './RecordPanel';
+import { Table } from './table';
 
 class Dashboard extends Component {
   state = { showForm: false, isUpdate: false, updatedItemID: null };
@@ -35,17 +37,12 @@ class Dashboard extends Component {
     const { tasks } = this.props;
     return (
       <Fragment>
-        <table className="table">
-          <thead>
-            <tr>
-              <th scope="col">ID</th>
-              <th scope="col">Name</th>
-              <th scope="col">Description</th>
-              <th scope="col">Creation Date</th>
-            </tr>
-          </thead>
-          <tbody>{this.renderTasks(tasks)}</tbody>
-        </table>
+        <Table rows={this.renderTasks(tasks)}>
+          <th scope="col">ID</th>
+          <th scope="col">Name</th>
+          <th scope="col">Description</th>
+          <th scope="col">Creation Date</th>
+        </Table>
         {showForm ? (
           <TaskForm
             isUpdate={isUpdate}
@@ -59,6 +56,7 @@ class Dashboard extends Component {
         <button onClick={() => this.changeShowFormState()} className="btn btn-primary">
           Add Task
         </button>
+        <RecordPanel />
       </Fragment>
     );
   }

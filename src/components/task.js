@@ -1,7 +1,7 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { deleteTask } from '../actions/';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { deleteTask } from '../actions';
 
 export const Task = connect(
   null,
