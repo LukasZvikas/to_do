@@ -2,12 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 export const Task = ({ ID, name, description, creationDate }) => (
-  <div className="col-10 bg-white d-flex justify-content-between p-3 border border-light">
-    <div>{ID}</div>
-    <div>{name}</div>
-    <div>{description}</div>
-    <div>{creationDate}</div>
-  </div>
+  <tr scope="row">
+    <td>{ID}</td>
+    <td>{name}</td>
+    <td>{description}</td>
+    <td>{creationDate}</td>
+  </tr>
 );
 
 Task.propTypes = {

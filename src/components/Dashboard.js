@@ -14,15 +14,17 @@ class Dashboard extends Component {
 
   render() {
     return (
-      <div className="row w-100 d-flex justify-content-center align-items-center flex-column">
-        <div className="col-10 bg-light d-flex justify-content-between p-3">
-          <div>ID</div>
-          <div>Name</div>
-          <div>description</div>
-          <div>Creation date</div>
-        </div>
-        {this.renderTasks(todos)}
-      </div>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Description</th>
+            <th scope="col">Creation Date</th>
+          </tr>
+        </thead>
+        <tbody>{this.renderTasks(todos)}</tbody>
+      </table>
     );
   }
 }
