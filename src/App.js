@@ -1,5 +1,10 @@
-import React from 'react';
+import React, { Fragment } from 'react';
+import Dashboard from './components/Dashboard';
 
-const App = () => <div>This is To-Do</div>;
+const App = () => (
+  <Fragment>
+    <Dashboard />
+  </Fragment>
+);
 
 export default App;
