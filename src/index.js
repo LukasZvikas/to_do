@@ -1,4 +1,5 @@
 import React from 'react';
+import _ from 'lodash';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import ReactDOM from 'react-dom';
@@ -10,11 +11,13 @@ const savedState = getState();
 
 const store = createStore(appReducer, savedState);
 
-store.subscribe(() => {
-  saveState({
-    todos: store.getState().toDos.recordedTasks
-  });
-});
+store.subscribe(
+  _.throttle(() => {
+    saveState({
+      todos: store.getState().toDos.recordedTasks
+    });
+  }, 1000)
+);
 
 ReactDOM.render(
   <Provider store={store}>

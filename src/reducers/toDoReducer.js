@@ -21,7 +21,6 @@ export default (state = initialState, { payload, type }) => {
         tasks: [...newTaskArr]
       };
     case RECORD_ACTION:
-      console.log('pa', payload);
       return { ...state, recordedTasks: [...state.recordedTasks, payload] };
     case CHANGE_RECORDING_STATE:
       return { ...state, isRecording: !state.isRecording };
