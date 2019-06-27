@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Task } from './task';
+import TaskForm from './TaskForm';
 
 const todos = [
   { ID: 1, name: 'first', description: 'this is first', creationDate: 'June 12' },
@@ -14,17 +15,21 @@ class Dashboard extends Component {
 
   render() {
     return (
-      <table class="table">
-        <thead>
-          <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Name</th>
-            <th scope="col">Description</th>
-            <th scope="col">Creation Date</th>
-          </tr>
-        </thead>
-        <tbody>{this.renderTasks(todos)}</tbody>
-      </table>
+      <Fragment>
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Name</th>
+              <th scope="col">Description</th>
+              <th scope="col">Creation Date</th>
+            </tr>
+          </thead>
+          <tbody>{this.renderTasks(todos)}</tbody>
+        </table>
+        <TaskForm />
+        <button className="btn btn-primary">Add Task</button>
+      </Fragment>
     );
   }
 }
