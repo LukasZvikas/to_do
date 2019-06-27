@@ -9,11 +9,17 @@ const todos = [
 ];
 
 class Dashboard extends Component {
+  state = { showForm: false };
   renderTasks(tasks) {
     return tasks.map(item => <Task name={item.name} description={item.description} />);
   }
 
+  changeShowFormState() {
+    this.setState(prevState => ({ showForm: !prevState.showForm }));
+  }
+
   render() {
+    const { showForm } = this.state;
     return (
       <Fragment>
         <table class="table">
@@ -27,8 +33,10 @@ class Dashboard extends Component {
           </thead>
           <tbody>{this.renderTasks(todos)}</tbody>
         </table>
-        <TaskForm />
-        <button className="btn btn-primary">Add Task</button>
+        {showForm ? <TaskForm closeForm={() => this.changeShowFormState()} /> : null}
+        <button onClick={() => this.changeShowFormState()} className="btn btn-primary">
+          Add Task
+        </button>
       </Fragment>
     );
   }
