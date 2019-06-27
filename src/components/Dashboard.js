@@ -1,17 +1,21 @@
 import React, { Component, Fragment } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { Task } from './task';
 import TaskForm from './TaskForm';
-
-const todos = [
-  { ID: 1, name: 'first', description: 'this is first', creationDate: 'June 12' },
-  { ID: 2, name: 'second', description: 'this is second', creationDate: 'June 14' },
-  { ID: 3, name: 'third', description: 'this is third', creationDate: 'June 15' }
-];
 
 class Dashboard extends Component {
   state = { showForm: false };
   renderTasks(tasks) {
-    return tasks.map(item => <Task name={item.name} description={item.description} />);
+    return tasks.map(item => (
+      <Task
+        key={item.ID}
+        ID={item.ID}
+        name={item.name}
+        description={item.description}
+        creationDate={item.creationDate}
+      />
+    ));
   }
 
   changeShowFormState() {
@@ -20,9 +24,10 @@ class Dashboard extends Component {
 
   render() {
     const { showForm } = this.state;
+    const { tasks } = this.props;
     return (
       <Fragment>
-        <table class="table">
+        <table className="table">
           <thead>
             <tr>
               <th scope="col">ID</th>
@@ -31,7 +36,7 @@ class Dashboard extends Component {
               <th scope="col">Creation Date</th>
             </tr>
           </thead>
-          <tbody>{this.renderTasks(todos)}</tbody>
+          <tbody>{this.renderTasks(tasks)}</tbody>
         </table>
         {showForm ? <TaskForm closeForm={() => this.changeShowFormState()} /> : null}
         <button onClick={() => this.changeShowFormState()} className="btn btn-primary">
@@ -42,4 +47,26 @@ class Dashboard extends Component {
   }
 }
 
-export default Dashboard;
+const mapStateToProps = ({ toDos: { tasks } }) => ({
+  tasks
+});
+
+Dashboard.propTypes = {
+  tasks: PropTypes.arrayOf(
+    PropTypes.shape({
+      ID: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired,
+      description: PropTypes.string.isRequired,
+      creationDate: PropTypes.string.isRequired
+    })
+  )
+};
+
+Dashboard.defaultProps = {
+  tasks: []
+};
+
+export default connect(
+  mapStateToProps,
+  null
+)(Dashboard);

@@ -14,7 +14,7 @@ export const Task = ({ ID, name, description, creationDate }) => (
 );
 
 Task.propTypes = {
-  ID: PropTypes.string,
+  ID: PropTypes.number,
   name: PropTypes.string,
   description: PropTypes.string,
   creationDate: PropTypes.string
