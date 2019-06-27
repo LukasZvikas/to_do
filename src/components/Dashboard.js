@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Task } from './task';
+import Task from './task';
 import TaskForm from './TaskForm';
 import RecordPanel from './RecordPanel';
 import { Table } from './table';

@@ -3,6 +3,7 @@ import { removeItemFromArr } from '../utilities/helpers';
 
 const initialState = {
   tasks: [],
+  recordedTasks: [],
   isRecording: false
 };
 
@@ -15,9 +16,13 @@ export default (state = initialState, { payload, type }) => {
       return { ...state, tasks: [...updatedTasks, payload] };
     case DELETE_TASK:
       const newTaskArr = removeItemFromArr(state.tasks, payload);
-      return { ...state, tasks: [...newTaskArr] };
+      return {
+        ...state,
+        tasks: [...newTaskArr]
+      };
     case RECORD_ACTION:
-      return state;
+      console.log('pa', payload);
+      return { ...state, recordedTasks: [...state.recordedTasks, payload] };
     case CHANGE_RECORDING_STATE:
       return { ...state, isRecording: !state.isRecording };
     default:

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import './TaskForm.css';
-import { addTask, updateTask } from '../../actions';
+import { addTask, updateTask, recordAction } from '../../actions';
 
 class TaskForm extends Component {
   state = { taskDetails: {} };
@@ -14,7 +14,7 @@ class TaskForm extends Component {
   }
 
   determineAction() {
-    const { isUpdate, addTask, updateTask, ID, closeForm } = this.props;
+    const { isUpdate, addTask, updateTask, ID, closeForm, isRecording, recordAction } = this.props;
     const { taskDetails } = this.state;
 
     const creationDate = new Date().toLocaleString();
@@ -26,6 +26,15 @@ class TaskForm extends Component {
     } else {
       addTask({ ...params, ID: Date.now() });
     }
+
+    if (isRecording) {
+      recordAction({
+        actionType: isUpdate ? 'update' : 'add',
+        ...params,
+        ID: ID ? ID : Date.now()
+      });
+    }
+
     closeForm();
   }
   render() {
@@ -54,19 +63,25 @@ class TaskForm extends Component {
   }
 }
 
+const mapStateToProps = ({ toDos: { isRecording } }) => ({
+  isRecording
+});
+
 TaskForm.propTypes = {
   closeForm: PropTypes.func.isRequired,
   addTask: PropTypes.func.isRequired,
   isUpdate: PropTypes.bool,
-  ID: PropTypes.number
+  ID: PropTypes.number,
+  isRecording: PropTypes.bool
 };
 
 TaskForm.defaultProps = {
   isUpdate: false,
-  ID: null
+  ID: null,
+  isRecording: false
 };
 
 export default connect(
-  null,
-  { addTask, updateTask }
+  mapStateToProps,
+  { addTask, updateTask, recordAction }
 )(TaskForm);

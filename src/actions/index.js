@@ -1,4 +1,10 @@
-import { ADD_TASK, UPDATE_TASK, DELETE_TASK, CHANGE_RECORDING_STATE } from '../reducers/types';
+import {
+  ADD_TASK,
+  UPDATE_TASK,
+  DELETE_TASK,
+  RECORD_ACTION,
+  CHANGE_RECORDING_STATE
+} from '../reducers/types';
 
 export const addTask = taskDetails => ({
   type: ADD_TASK,
