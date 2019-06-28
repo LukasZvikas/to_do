@@ -3,23 +3,22 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Table } from './table';
 import Task from './task';
+import { getRandomDigits } from '../utilities/randomDigits';
+import { TableColumns } from './tableColumns';
 
 class RecordDashboard extends Component {
   renderRecordedTasks(tasks) {
-    return tasks.map(item => {
-      console.log('ID', item.ID);
-      return (
-        <Task
-          key={item.ID}
-          ID={item.ID}
-          recordingState={true}
-          actionType={item.actionType}
-          name={item.name}
-          description={item.description}
-          creationDate={item.creationDate}
-        />
-      );
-    });
+    return tasks.map(item => (
+      <Task
+        key={Date.now() + getRandomDigits()}
+        ID={item.ID}
+        recordingState={true}
+        actionType={item.actionType}
+        name={item.name}
+        description={item.description}
+        creationDate={item.creationDate}
+      />
+    ));
   }
 
   render() {
@@ -27,10 +26,7 @@ class RecordDashboard extends Component {
     return (
       <Table rows={this.renderRecordedTasks(recordedTasks)}>
         <th scope="col">Action</th>
-        <th scope="col">ID</th>
-        <th scope="col">Name</th>
-        <th scope="col">Description</th>
-        <th scope="col">Creation Date</th>
+        <TableColumns />
       </Table>
     );
   }

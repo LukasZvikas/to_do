@@ -22,7 +22,7 @@ class TaskForm extends Component {
     const params = { ...taskDetails, creationDate };
 
     if (isUpdate) {
-      updateTask({ ...params, ID });
+      updateTask({ ...params, ID: ID + 1 });
     } else {
       addTask({ ...params, ID: Date.now() });
     }
@@ -39,6 +39,9 @@ class TaskForm extends Component {
   }
   render() {
     const { closeForm, isUpdate, ID } = this.props;
+    const {
+      taskDetails: { name, description }
+    } = this.state;
     return (
       <div className="form-container w-100 h-100 row">
         <div className="d-flex col-10 col-md-5 flex-column justify-content-center align-items-center bg-white form-container__form p-4 w-100">
@@ -54,7 +57,11 @@ class TaskForm extends Component {
             onChange={e => this.onInputChange(e)}
             className="col-10 mb-3"
           />
-          <button onClick={() => this.determineAction()} className="btn btn-success my-3">
+          <button
+            disabled={!name || !description}
+            onClick={() => this.determineAction()}
+            className="btn btn-success my-3"
+          >
             {isUpdate ? `Update Task` : 'Add Task'}
           </button>
         </div>

@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { deleteTask, recordAction } from '../actions';
+import { Button } from './button';
 
 const Task = ({
   ID,
@@ -21,15 +22,19 @@ const Task = ({
     <td>{name}</td>
     <td>{description}</td>
     <td>{creationDate}</td>
-    <td>
-      {!recordingState ? (
+    {!recordingState ? (
+      <td className="d-flex justify-content-start align-items-center">
         <Fragment>
-          <button onClick={showForm} className="btn btn-success">
-            Update
-          </button>
-          <button
+          <Button
+            name="Update"
+            onClick={showForm}
+            color="btn-success"
+            marginX={'mx-2'}
+            marginY={'my-0'}
+          />
+          <Button
+            name="Delete"
             onClick={() => {
-              console.log('ID', ID);
               deleteTask(ID);
               isRecording &&
                 recordAction({
@@ -40,13 +45,13 @@ const Task = ({
                   creationDate
                 });
             }}
-            className="btn btn-danger ml-2"
-          >
-            Delete
-          </button>
+            color="btn-danger"
+            marginX={'mx-0'}
+            marginY={'my-0'}
+          />
         </Fragment>
-      ) : null}
-    </td>
+      </td>
+    ) : null}
   </tr>
 );
 
@@ -59,7 +64,7 @@ Task.propTypes = {
   name: PropTypes.string,
   description: PropTypes.string,
   creationDate: PropTypes.string,
-  showForm: PropTypes.func.isRequired,
+  showForm: PropTypes.func,
   deleteTask: PropTypes.func,
   actionType: PropTypes.string,
   recordAction: PropTypes.func,
@@ -76,7 +81,8 @@ Task.defaultProps = {
   actionType: null,
   recordAction: null,
   isRecording: false,
-  recordingState: false
+  recordingState: false,
+  showForm: null
 };
 
 export default connect(

@@ -10,6 +10,7 @@ import {
   clearTasksToBePlayed,
   clearRecordedTasks
 } from '../actions';
+import { Button } from './button';
 
 const RecordPanel = ({
   isRecording,
@@ -61,36 +62,32 @@ const RecordPanel = ({
   return (
     <div className="d-flex justify-content-center mb-5">
       {isRecording ? (
-        <button className="btn btn-danger" onClick={() => changeRecordingState()}>
-          Stop Recording
-        </button>
+        <Button color="btn-danger" name="Stop Recording" onClick={() => changeRecordingState()} />
       ) : (
-        <button
+        <Button
           disabled={isPlaying}
-          className="btn btn-primary"
+          name="Record"
+          color="btn-primary"
           onClick={() => changeRecordingState()}
-        >
-          Record
-        </button>
+        />
       )}
-      <button
+
+      <Button
         disabled={isRecording}
+        name={isPlaying ? 'Playing' : 'Play Recording'}
         onClick={() => {
           changePlayingState();
           playRecording();
         }}
-        className="btn btn-info ml-3"
-      >
-        Play Recording
-      </button>
+        color="btn-info"
+      />
 
-      <button
+      <Button
+        name="Clear Record Log"
         disabled={isPlaying || isRecording}
+        color="btn-danger"
         onClick={() => clearRecordedTasks()}
-        className="btn btn-danger ml-3"
-      >
-        Clear Record Log
-      </button>
+      />
     </div>
   );
 };

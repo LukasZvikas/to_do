@@ -5,13 +5,16 @@ import Task from './task';
 import TaskForm from './TaskForm';
 import RecordPanel from './RecordPanel';
 import { Table } from './table';
+import { getRandomDigits } from '../utilities/randomDigits';
+import { Button } from './button';
+import { TableColumns } from './tableColumns';
 
 class Dashboard extends Component {
   state = { showForm: false, isUpdate: false, updatedItemID: null };
   renderTasks(tasks) {
     return tasks.map(item => (
       <Task
-        key={item.ID}
+        key={Date.now() + getRandomDigits()}
         ID={item.ID}
         name={item.name}
         description={item.description}
@@ -38,11 +41,7 @@ class Dashboard extends Component {
     return (
       <Fragment>
         <Table rows={this.renderTasks(isPlaying ? tasksToBePlayed : tasks)}>
-          <th scope="col">ID</th>
-          <th scope="col">Name</th>
-          <th scope="col">Description</th>
-          <th scope="col">Creation Date</th>
-          <th scope="col">Actions</th>
+          <TableColumns />
         </Table>
         {showForm ? (
           <TaskForm
@@ -54,9 +53,8 @@ class Dashboard extends Component {
             }}
           />
         ) : null}
-        <button onClick={() => this.changeShowFormState()} className="btn btn-primary my-5">
-          Add Task
-        </button>
+
+        <Button name="Add Task" color="btn-primary" onClick={() => this.changeShowFormState()} />
         <RecordPanel />
       </Fragment>
     );
