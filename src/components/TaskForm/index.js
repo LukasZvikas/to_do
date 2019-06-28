@@ -22,7 +22,7 @@ class TaskForm extends Component {
     const params = { ...taskDetails, creationDate };
 
     if (isUpdate) {
-      updateTask({ ...params, ID: ID + 1 });
+      updateTask({ ...params, ID });
     } else {
       addTask({ ...params, ID: Date.now() });
     }
