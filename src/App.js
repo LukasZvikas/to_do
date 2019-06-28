@@ -5,10 +5,11 @@ import Dashboard from './components/Dashboard';
 import RecordDashboard from './components/RecordDashboard';
 
 const App = ({ isRecording }) => (
-  <Fragment>
+  <div className="d-flex justify-content-center align-items-center flex-column">
+    <h2 className="my-5">My To-Do</h2>
     <Dashboard />
-    {isRecording ? <RecordDashboard /> : null}
-  </Fragment>
+    <RecordDashboard />
+  </div>
 );
 
 const mapStateToProps = ({ toDos: { isRecording } }) => ({

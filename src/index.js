@@ -14,7 +14,7 @@ const store = createStore(appReducer, savedState);
 store.subscribe(
   _.throttle(() => {
     saveState({
-      todos: store.getState().toDos.recordedTasks
+      toDos: store.getState().toDos
     });
   }, 1000)
 );

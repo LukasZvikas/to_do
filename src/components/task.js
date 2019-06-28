@@ -15,7 +15,7 @@ const Task = ({
   actionType,
   recordingState
 }) => (
-  <tr scope="row">
+  <tr>
     {recordingState && <td>{actionType}</td>}
     <td>{ID}</td>
     <td>{name}</td>
@@ -29,6 +29,7 @@ const Task = ({
           </button>
           <button
             onClick={() => {
+              console.log('ID', ID);
               deleteTask(ID);
               isRecording &&
                 recordAction({

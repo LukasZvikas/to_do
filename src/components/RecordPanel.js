@@ -1,12 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { changeRecordingState } from '../actions';
-import { addTask, updateTask, deleteTask } from '../actions';
+import {
+  addTask,
+  updateTask,
+  deleteTask,
+  changeRecordingState,
+  changePlayingState,
+  clearTasksToBePlayed,
+  clearRecordedTasks
+} from '../actions';
 
 const RecordPanel = ({
   isRecording,
+  isPlaying,
   changeRecordingState,
+  changePlayingState,
+  clearTasksToBePlayed,
+  clearRecordedTasks,
   addTask,
   updateTask,
   deleteTask,
@@ -14,10 +25,12 @@ const RecordPanel = ({
 }) => {
   const playRecording = () => {
     let i = 0;
-    setInterval(function() {
+    const interval = setInterval(() => {
       if (i === recordedTasks.length) {
-        clearInterval();
-        return null;
+        clearInterval(interval);
+        i = 0;
+        clearTasksToBePlayed();
+        return changePlayingState();
       }
 
       const params = {
@@ -46,25 +59,45 @@ const RecordPanel = ({
   };
 
   return (
-    <div className="d-flex justify-content-center">
+    <div className="d-flex justify-content-center mb-5">
       {isRecording ? (
         <button className="btn btn-danger" onClick={() => changeRecordingState()}>
           Stop Recording
         </button>
       ) : (
-        <button className="btn btn-primary" onClick={() => changeRecordingState()}>
+        <button
+          disabled={isPlaying}
+          className="btn btn-primary"
+          onClick={() => changeRecordingState()}
+        >
           Record
         </button>
       )}
-      <button onClick={() => playRecording()} className="btn btn-info ml-3">
+      <button
+        disabled={isRecording}
+        onClick={() => {
+          changePlayingState();
+          playRecording();
+        }}
+        className="btn btn-info ml-3"
+      >
         Play Recording
+      </button>
+
+      <button
+        disabled={isPlaying || isRecording}
+        onClick={() => clearRecordedTasks()}
+        className="btn btn-danger ml-3"
+      >
+        Clear Record Log
       </button>
     </div>
   );
 };
 
-const mapStateToProps = ({ toDos: { isRecording, recordedTasks } }) => ({
+const mapStateToProps = ({ toDos: { isRecording, recordedTasks, isPlaying } }) => ({
   isRecording,
+  isPlaying,
   recordedTasks
 });
 
@@ -80,5 +113,13 @@ RecordPanel.defaultProps = {
 
 export default connect(
   mapStateToProps,
-  { changeRecordingState, addTask, updateTask, deleteTask }
+  {
+    changeRecordingState,
+    addTask,
+    updateTask,
+    deleteTask,
+    changePlayingState,
+    clearTasksToBePlayed,
+    clearRecordedTasks
+  }
 )(RecordPanel);

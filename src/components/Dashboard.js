@@ -34,15 +34,15 @@ class Dashboard extends Component {
 
   render() {
     const { showForm, isUpdate, updatedItemID } = this.state;
-    const { tasks } = this.props;
-    console.log('props', this.props);
+    const { tasks, isPlaying, tasksToBePlayed } = this.props;
     return (
       <Fragment>
-        <Table rows={this.renderTasks(tasks)}>
+        <Table rows={this.renderTasks(isPlaying ? tasksToBePlayed : tasks)}>
           <th scope="col">ID</th>
           <th scope="col">Name</th>
           <th scope="col">Description</th>
           <th scope="col">Creation Date</th>
+          <th scope="col">Actions</th>
         </Table>
         {showForm ? (
           <TaskForm
@@ -54,7 +54,7 @@ class Dashboard extends Component {
             }}
           />
         ) : null}
-        <button onClick={() => this.changeShowFormState()} className="btn btn-primary">
+        <button onClick={() => this.changeShowFormState()} className="btn btn-primary my-5">
           Add Task
         </button>
         <RecordPanel />
@@ -63,9 +63,11 @@ class Dashboard extends Component {
   }
 }
 
-const mapStateToProps = ({ toDos: { tasks, recordedTasks } }) => ({
+const mapStateToProps = ({ toDos: { tasks, recordedTasks, tasksToBePlayed, isPlaying } }) => ({
   tasks,
-  recordedTasks
+  recordedTasks,
+  tasksToBePlayed,
+  isPlaying
 });
 
 Dashboard.propTypes = {
@@ -76,11 +78,20 @@ Dashboard.propTypes = {
       description: PropTypes.string.isRequired,
       creationDate: PropTypes.string.isRequired
     })
+  ),
+  tas: PropTypes.arrayOf(
+    PropTypes.shape({
+      ID: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired,
+      description: PropTypes.string.isRequired,
+      creationDate: PropTypes.string.isRequired
+    })
   )
 };
 
 Dashboard.defaultProps = {
-  tasks: []
+  tasks: [],
+  tasksToBePlayed: []
 };
 
 export default connect(

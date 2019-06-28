@@ -6,16 +6,20 @@ import Task from './task';
 
 class RecordDashboard extends Component {
   renderRecordedTasks(tasks) {
-    return tasks.map(item => (
-      <Task
-        recordingState={true}
-        actionType={item.actionType}
-        ID={item.ID}
-        name={item.name}
-        description={item.description}
-        creationDate={item.creationDate}
-      />
-    ));
+    return tasks.map(item => {
+      console.log('ID', item.ID);
+      return (
+        <Task
+          key={item.ID}
+          ID={item.ID}
+          recordingState={true}
+          actionType={item.actionType}
+          name={item.name}
+          description={item.description}
+          creationDate={item.creationDate}
+        />
+      );
+    });
   }
 
   render() {
