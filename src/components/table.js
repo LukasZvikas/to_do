@@ -15,6 +15,6 @@ export const Table = ({ children, rows }) => {
 };
 
 Table.propTypes = {
-  children: PropTypes.arrayOf(PropTypes.object).isRequired,
+  children: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
   rows: PropTypes.arrayOf(PropTypes.object).isRequired
 };

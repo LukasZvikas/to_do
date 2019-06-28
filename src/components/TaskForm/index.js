@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import './TaskForm.css';
 import { addTask, updateTask, recordAction } from '../../actions';
+import { getRandomDigits } from '../../utilities/randomDigits';
 
 class TaskForm extends Component {
   state = { taskDetails: {} };
@@ -21,17 +22,19 @@ class TaskForm extends Component {
 
     const params = { ...taskDetails, creationDate };
 
+    let newID = getRandomDigits();
+
     if (isUpdate) {
       updateTask({ ...params, ID });
     } else {
-      addTask({ ...params, ID: Date.now() });
+      addTask({ ...params, ID: newID });
     }
 
     if (isRecording) {
       recordAction({
         actionType: isUpdate ? 'update' : 'add',
         ...params,
-        ID: ID ? ID : Date.now()
+        ID: ID ? ID : newID
       });
     }
 

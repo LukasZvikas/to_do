@@ -24,7 +24,7 @@ class Dashboard extends Component {
     ));
   }
 
-  changeUpdateState(ID) {
+  changeUpdateState(ID = null) {
     this.setState({ isUpdate: !this.state.isUpdate, updatedItemID: ID });
   }
 
