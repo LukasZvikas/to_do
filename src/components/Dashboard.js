@@ -35,6 +35,7 @@ class Dashboard extends Component {
   render() {
     const { showForm, isUpdate, updatedItemID } = this.state;
     const { tasks } = this.props;
+    console.log('props', this.props);
     return (
       <Fragment>
         <Table rows={this.renderTasks(tasks)}>
@@ -62,8 +63,9 @@ class Dashboard extends Component {
   }
 }
 
-const mapStateToProps = ({ toDos: { tasks } }) => ({
-  tasks
+const mapStateToProps = ({ toDos: { tasks, recordedTasks } }) => ({
+  tasks,
+  recordedTasks
 });
 
 Dashboard.propTypes = {
